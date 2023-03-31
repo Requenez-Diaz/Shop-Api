@@ -6,7 +6,7 @@ import {
   MinLength,
 } from 'class-validator';
 
-export class createShopDto {
+export class createProductsDto {
   @IsString()
   @IsNotEmpty()
   @MinLength(5)
