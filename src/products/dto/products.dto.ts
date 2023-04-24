@@ -1,4 +1,5 @@
 import {
+  IsArray,
   IsNotEmpty,
   IsNumber,
   IsOptional,
@@ -32,4 +33,9 @@ export class createProductsDto {
   @IsString()
   @IsOptional()
   gender?: string;
+
+  @IsString({ each: true })
+  @IsArray()
+  @IsOptional()
+  image?: string[];
 }

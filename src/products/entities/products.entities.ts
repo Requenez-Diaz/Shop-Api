@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { ProductImage } from './product-image.entities';
 
 @Entity()
 export class Product {
@@ -22,4 +23,11 @@ export class Product {
 
   @Column({ nullable: true })
   gender: string;
+
+  //relaciones de uno a muchos
+
+  @OneToMany(() => ProductImage, (productImage) => productImage.product, {
+    cascade: true,
+  })
+  image?: ProductImage[];
 }
