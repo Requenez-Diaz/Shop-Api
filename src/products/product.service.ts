@@ -22,6 +22,7 @@ export class ProductService {
 
   //   return shop;
   // }
+  
   async create(shopDto: createProductsDto) {
     const { image = [], ...detailProduct } = shopDto;
     const product = await this.shopRepository.create({
