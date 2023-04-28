@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './entities/products.entities';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { createProductsDto } from './dto/products.dto';
 import { find } from 'rxjs';
 import { ProductImage } from './entities/product-image.entities';
@@ -14,7 +14,9 @@ export class ProductService {
 
     @InjectRepository(ProductImage)
     private readonly productImageRepository: Repository<ProductImage>,
-  ) {}
+
+    private readonly dataSource: DataSource,
+  ) { }
 
   // async create(shopDto: createProductsDto) {
   //   const shop = this.shopRepository.create(shopDto);
@@ -22,7 +24,7 @@ export class ProductService {
 
   //   return shop;
   // }
-  
+
   async create(shopDto: createProductsDto) {
     const { image = [], ...detailProduct } = shopDto;
     const product = await this.shopRepository.create({
@@ -37,7 +39,7 @@ export class ProductService {
   }
 
   findAll() {
-    return this.shopRepository.find();
+    return this.shopRepository.find({ relations: ['image',] });
   }
 
   //Metodo para visualizar un producto
@@ -64,13 +66,31 @@ export class ProductService {
   // }
 
   async update(id: string, changeDto: createProductsDto) {
+    const { image, ...updateAll } = changeDto;
     const product = await this.shopRepository.preload({
       id: id,
-      ...changeDto,
+      ...updateAll,
       image: [],
     });
 
-    await this.shopRepository.save(product);
+    //consultar a la base de datos para la modification
+    const queryRunner = await this.dataSource.createQueryRunner()
+    await queryRunner.startTransaction()
+    await queryRunner.connect()
+
+    //se agregan imagenes de
+    if (image) {
+      await queryRunner.manager.delete(ProductImage, { product: { id } })
+
+      product.image = await image.map((valorImage) => this.productImageRepository.create({ url: valorImage }))
+    } else {
+      product.image = await this.productImageRepository.findBy({ product: { id } });
+    }
+
+    //Salvamos y cerramos la consurlta
+    await queryRunner.manager.save(product);
+    await queryRunner.commitTransaction()
+    await queryRunner.release()
     return product;
   }
 }
