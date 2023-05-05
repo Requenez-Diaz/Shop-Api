@@ -1,15 +1,16 @@
+import { FilesModule } from './files/files.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ShopModule } from './products/product.module';
-import { SizeController } from './size/size.controller';
-import { SizeService } from './size/size.service';
 import { SizeModule } from './size/size.module';
+
 
 @Module({
   imports: [
+    FilesModule,
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'postgres',
@@ -23,6 +24,7 @@ import { SizeModule } from './size/size.module';
     }),
     ShopModule,
     SizeModule,
+    FilesModule,
   ],
   controllers: [AppController],
   providers: [AppService,],
