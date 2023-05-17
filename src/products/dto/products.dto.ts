@@ -34,6 +34,10 @@ export class createProductsDto {
   @IsOptional()
   gender?: string;
 
+  @IsString()
+  @IsOptional()
+  filename: string;
+
   @IsString({ each: true })
   @IsArray()
   @IsOptional()

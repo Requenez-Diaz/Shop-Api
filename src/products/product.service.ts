@@ -16,13 +16,21 @@ export class ProductService {
     private readonly productImageRepository: Repository<ProductImage>,
 
     private readonly dataSource: DataSource,
-  ) { }
+  ) {}
+  //modify the data source
+  // async addProductImageById(productId: string, imageUrl: string) {
+  //   const product = await this.shopRepository.findOne(productId, {
+  //     relations: ['image'],
+  //   });
+  //   if (!product) {
+  //     throw new Error('Product not found');
+  //   }
 
-  // async create(shopDto: createProductsDto) {
-  //   const shop = this.shopRepository.create(shopDto);
-  //   await this.shopRepository.save(shop);
+  //   const image = this.productImageRepository.create({ url: imageUrl });
+  //   product.image.push(image);
 
-  //   return shop;
+  //   await this.shopRepository.save(product);
+  //   return product;
   // }
 
   async create(shopDto: createProductsDto) {
@@ -39,7 +47,7 @@ export class ProductService {
   }
 
   findAll() {
-    return this.shopRepository.find({ relations: ['image',] });
+    return this.shopRepository.find({ relations: ['image'] });
   }
 
   //Metodo para visualizar un producto
@@ -74,23 +82,27 @@ export class ProductService {
     });
 
     //consultar a la base de datos para la modification
-    const queryRunner = await this.dataSource.createQueryRunner()
-    await queryRunner.startTransaction()
-    await queryRunner.connect()
+    const queryRunner = await this.dataSource.createQueryRunner();
+    await queryRunner.startTransaction();
+    await queryRunner.connect();
 
     //se agregan imagenes de
     if (image) {
-      await queryRunner.manager.delete(ProductImage, { product: { id } })
+      await queryRunner.manager.delete(ProductImage, { product: { id } });
 
-      product.image = await image.map((valorImage) => this.productImageRepository.create({ url: valorImage }))
+      product.image = await image.map((valorImage) =>
+        this.productImageRepository.create({ url: valorImage }),
+      );
     } else {
-      product.image = await this.productImageRepository.findBy({ product: { id } });
+      product.image = await this.productImageRepository.findBy({
+        product: { id },
+      });
     }
 
     //Salvamos y cerramos la consurlta
     await queryRunner.manager.save(product);
-    await queryRunner.commitTransaction()
-    await queryRunner.release()
+    await queryRunner.commitTransaction();
+    await queryRunner.release();
     return product;
   }
 }

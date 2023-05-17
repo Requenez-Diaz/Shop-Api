@@ -24,6 +24,9 @@ export class Product {
   @Column({ nullable: true })
   gender: string;
 
+  @Column({ type: 'varchar', nullable: true })
+  filename: string;
+
   //relaciones de uno a muchos
 
   @OneToMany(() => ProductImage, (productImage) => productImage.product, {

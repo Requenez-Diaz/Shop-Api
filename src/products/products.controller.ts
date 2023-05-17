@@ -25,6 +25,18 @@ export class ProductsController {
     return this.shopServiceRepo.findAll();
   }
 
+  // @Post(':id/images')
+  // async addProductImageById(
+  //   @Param('id') productId: string,
+  //   @Body() body: { imageUrl: string },
+  // ) {
+  //   const product = await this.shopServiceRepo.addProductImageById(
+  //     parseInt(productId),
+  //     body.imageUrl,
+  //   );
+  //   return product;
+  // }
+
   @Get(':id')
   findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.shopServiceRepo.findOne(id);
