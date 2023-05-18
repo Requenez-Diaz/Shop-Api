@@ -5,8 +5,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ShopModule } from './products/product.module';
-import { SizeModule } from './size/size.module';
-
+import { HotelModule } from './hoteles/hotel.module';
+import { BedroomsModule } from './bedrooms/bedrooms.module';
+import { ReservationsModule } from './reservations/reservations.module';
 
 @Module({
   imports: [
@@ -23,10 +24,12 @@ import { SizeModule } from './size/size.module';
       synchronize: true,
     }),
     ShopModule,
-    SizeModule,
     FilesModule,
+    HotelModule,
+    BedroomsModule,
+    ReservationsModule,
   ],
   controllers: [AppController],
-  providers: [AppService,],
+  providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}

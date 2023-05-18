@@ -7,33 +7,29 @@ import {
   MinLength,
 } from 'class-validator';
 
-export class createSizeDto {
-  @IsString()
+export class createReservationsDto {
+  @IsNumber()
   @IsNotEmpty()
-  name: string;
+  startDate: number;
 
   @IsNumber()
   @IsOptional()
-  width: number;
-
-  @IsNumber()
-  @IsOptional()
-  height: number;
-
-  @IsNumber()
-  @IsOptional()
-  units: number;
+  endDate: number;
 
   @IsString()
   @IsOptional()
-  description: string;
+  order: string;
 
-  @IsString()
+  @IsNumber()
   @IsOptional()
-  is_active: string;
+  client_id: number;
+
+  @IsNumber()
+  @IsOptional()
+  habitacion_id: number;
 
   @IsString({ each: true })
   @IsArray()
   @IsOptional()
-  inventory?: string[];
+  image?: string[];
 }
