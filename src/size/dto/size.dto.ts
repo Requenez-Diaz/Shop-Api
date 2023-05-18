@@ -1,32 +1,39 @@
-import { IsArray, IsNotEmpty, IsNumber, IsOptional, IsString, MinLength } from "class-validator";
+import {
+  IsArray,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  MinLength,
+} from 'class-validator';
 
 export class createSizeDto {
-    @IsString()
-    @IsNotEmpty()
-    name: string;
+  @IsString()
+  @IsNotEmpty()
+  name: string;
 
-    @IsNumber()
-    @IsOptional()
-    width?: number;
+  @IsNumber()
+  @IsOptional()
+  width: number;
 
-    @IsNumber()
-    @IsOptional()
-    height?: number;
+  @IsNumber()
+  @IsOptional()
+  height: number;
 
-    @IsNumber()
-    @IsOptional()
-    units?: number;
+  @IsNumber()
+  @IsOptional()
+  units: number;
 
-    @IsString()
-    @IsOptional()
-    description?: string;
+  @IsString()
+  @IsOptional()
+  description: string;
 
-    @IsString()
-    @IsOptional()
-    is_active?: string;
+  @IsString()
+  @IsOptional()
+  is_active: string;
 
-    @IsString({ each: true })
-    @IsArray()
-    @IsOptional()
-    inventory?: string[];
+  @IsString({ each: true })
+  @IsArray()
+  @IsOptional()
+  inventory?: string[];
 }

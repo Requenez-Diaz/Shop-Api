@@ -6,8 +6,8 @@ import { Size } from './entities/size.entities';
 import { ProductSize } from './entities/product.size';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Size, ProductSize])],
-    controllers: [SizeController],
-    providers: [SizeService],
+  imports: [TypeOrmModule.forFeature([Size, ProductSize])],
+  controllers: [SizeController],
+  providers: [SizeService],
 })
-export class SizeModule { }
+export class SizeModule {}
